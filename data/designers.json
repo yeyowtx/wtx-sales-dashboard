@@ -1,0 +1,130 @@
+{
+  "lastUpdated": "2025-07-08T14:15:00Z",
+  "company": {
+    "name": "WTX Construction",
+    "totalYTD": 0,
+    "teamGoal": 2400000
+  },
+  "designers": {
+    "zach": {
+      "name": "Zach Rodriguez",
+      "slackId": "U07FG48KNN9",
+      "goals": {
+        "annual": 400000,
+        "monthly": 33333
+      },
+      "current": {
+        "ytdActual": 0,
+        "monthlyActual": 0,
+        "ytdProgress": 0,
+        "monthlyProgress": 0,
+        "dealsCount": 0,
+        "lastDeal": {
+          "amount": 0,
+          "date": "",
+          "jobName": ""
+        }
+      }
+    },
+    "jessica": {
+      "name": "Jessica Chen",
+      "slackId": "U08UZ8WEZE3",
+      "goals": {
+        "annual": 400000,
+        "monthly": 33333
+      },
+      "current": {
+        "ytdActual": 0,
+        "monthlyActual": 0,
+        "ytdProgress": 0,
+        "monthlyProgress": 0,
+        "dealsCount": 0,
+        "lastDeal": {
+          "amount": 0,
+          "date": "",
+          "jobName": ""
+        }
+      }
+    },
+    "erick": {
+      "name": "Erick Martinez",
+      "slackId": "U07FG50QHC5",
+      "goals": {
+        "annual": 400000,
+        "monthly": 33333
+      },
+      "current": {
+        "ytdActual": 0,
+        "monthlyActual": 0,
+        "ytdProgress": 0,
+        "monthlyProgress": 0,
+        "dealsCount": 0,
+        "lastDeal": {
+          "amount": 0,
+          "date": "",
+          "jobName": ""
+        }
+      }
+    },
+    "tara": {
+      "name": "Tara Wilson",
+      "slackId": "U0938RYR7TQ",
+      "goals": {
+        "annual": 400000,
+        "monthly": 33333
+      },
+      "current": {
+        "ytdActual": 0,
+        "monthlyActual": 0,
+        "ytdProgress": 0,
+        "monthlyProgress": 0,
+        "dealsCount": 0,
+        "lastDeal": {
+          "amount": 0,
+          "date": "",
+          "jobName": ""
+        }
+      }
+    },
+    "dylan": {
+      "name": "Dylan Smith",
+      "slackId": "U091FRKQPUK",
+      "goals": {
+        "annual": 400000,
+        "monthly": 33333
+      },
+      "current": {
+        "ytdActual": 0,
+        "monthlyActual": 0,
+        "ytdProgress": 0,
+        "monthlyProgress": 0,
+        "dealsCount": 0,
+        "lastDeal": {
+          "amount": 0,
+          "date": "",
+          "jobName": ""
+        }
+      }
+    },
+    "laurencio": {
+      "name": "Laurencio Rodriguez",
+      "slackId": "U07FG48KNN9",
+      "goals": {
+        "annual": 400000,
+        "monthly": 33333
+      },
+      "current": {
+        "ytdActual": 0,
+        "monthlyActual": 0,
+        "ytdProgress": 0,
+        "monthlyProgress": 0,
+        "dealsCount": 0,
+        "lastDeal": {
+          "amount": 0,
+          "date": "",
+          "jobName": ""
+        }
+      }
+    }
+  }
+}
