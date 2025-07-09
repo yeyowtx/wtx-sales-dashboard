@@ -1,5 +1,5 @@
 {
-  "lastUpdated": "2025-07-08T14:15:00Z",
+  "lastUpdated": "2025-07-09T00:13:05+00:00",
   "company": {
     "name": "WTX Construction",
     "totalYTD": 0,
@@ -14,15 +14,15 @@
         "monthly": 33333
       },
       "current": {
-        "ytdActual": 0,
-        "monthlyActual": 0,
+        "ytdActual": 359.26,
+        "monthlyActual": 359.26,
         "ytdProgress": 0,
-        "monthlyProgress": 0,
-        "dealsCount": 0,
+        "monthlyProgress": 1,
+        "dealsCount": 1,
         "lastDeal": {
-          "amount": 0,
-          "date": "",
-          "jobName": ""
+          "amount": 359.26,
+          "date": "2025-07-09",
+          "jobName": "Lau Mont"
         }
       }
     },
