@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>WTX Construction - Sales Dashboard</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+        
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+        
+        .header {
+            text-align: center;
+            color: white;
+            margin-bottom: 40px;
+        }
+        
+        .header h1 {
+            font-size: 3rem;
+            margin-bottom: 10px;
+            text-shadow: 0 2px 4px rgba(0,0,0,0.3);
+        }
+        
+        .header p {
+            font-size: 1.2rem;
+            opacity: 0.9;
+        }
+        
+        .team-stats {
+            background: white;
+            border-radius: 15px;
+            padding: 30px;
+            margin-bottom: 30px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            text-align: center;
+        }
+        
+        .team-stats h2 {
+            color: #333;
+            margin-bottom: 20px;
+        }
+        
+        .stat-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+        }
+        
+        .stat-card {
+            padding: 20px;
+            background: #f8fafc;
+            border-radius: 10px;
+            border-left: 4px solid #667eea;
+        }
+        
+        .stat-value {
+            font-size: 2rem;
+            font-weight: bold;
+            color: #333;
+            margin-bottom: 5px;
+        }
+        
+        .stat-label {
+            color: #666;
+            font-size: 0.9rem;
+        }
+        
+        .designers-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(450px, 1fr));
+            gap: 20px;
+        }
+        
+        .designer-widget {
+            background: white;
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            transition: transform 0.3s ease;
+        }
+        
+        .designer-widget:hover {
+            transform: translateY(-5px);
+        }
+        
+        .designer-widget iframe {
+            width: 100%;
+            height: 500px;
+            border: none;
+        }
+        
+        .footer {
+            text-align: center;
+            color: white;
+            margin-top: 40px;
+            opacity: 0.8;
+        }
+        
+        @media (max-width: 768px) {
+            .header h1 {
+                font-size: 2rem;
+            }
+            
+            .designers-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🏗️ WTX Construction</h1>
+            <p>Sales Performance Dashboard</p>
+        </div>
+        
+        <div class="team-stats">
+            <h2>📊 Team Performance</h2>
+            <div class="stat-grid">
+                <div class="stat-card">
+                    <div class="stat-value" id="team-ytd">$0</div>
+                    <div class="stat-label">Team YTD Revenue</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-value" id="team-goal">$2,400,000</div>
+                    <div class="stat-label">Annual Team Goal</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-value" id="team-progress">0%</div>
+                    <div class="stat-label">Team Progress</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-value" id="active-designers">6</div>
+                    <div class="stat-label">Active Designers</div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="designers-grid">
+            <div class="designer-widget">
+                <iframe src="widgets/designer-goals.html?designer=zach" title="Zach Rodriguez Dashboard"></iframe>
+            </div>
+            
+            <div class="designer-widget">
+                <iframe src="widgets/designer-goals.html?designer=jessica" title="Jessica Chen Dashboard"></iframe>
+            </div>
+            
+            <div class="designer-widget">
+                <iframe src="widgets/designer-goals.html?designer=erick" title="Erick Martinez Dashboard"></iframe>
+            </div>
+            
+            <div class="designer-widget">
+                <iframe src="widgets/designer-goals.html?designer=tara" title="Tara Wilson Dashboard"></iframe>
+            </div>
+            
+            <div class="designer-widget">
+                <iframe src="widgets/designer-goals.html?designer=dylan" title="Dylan Smith Dashboard"></iframe>
+            </div>
+            
+            <div class="designer-widget">
+                <iframe src="widgets/designer-goals.html?designer=laurencio" title="Laurencio Rodriguez Dashboard"></iframe>
+            </div>
+        </div>
+        
+        <div class="footer">
+            <p>🤖 Automated with n8n • Last updated: <span id="last-update">Loading...</span></p>
+        </div>
+    </div>
+
+    <script>
+        // Load team data
+        async function loadTeamData() {
+            try {
+                const response = await fetch('data/designers.json');
+                const data = await response.json();
+                
+                // Calculate team totals
+                let teamYTD = 0;
+                const designers = Object.values(data.designers);
+                
+                designers.forEach(designer => {
+                    teamYTD += designer.current.ytdActual || 0;
+                });
+                
+                const teamGoal = data.company.teamGoal;
+                const teamProgress = Math.round((teamYTD / teamGoal) * 100);
+                
+                // Update display
+                document.getElementById('team-ytd').textContent = `$${teamYTD.toLocaleString()}`;
+                document.getElementById('team-progress').textContent = `${teamProgress}%`;
+                document.getElementById('last-update').textContent = new Date(data.lastUpdated).toLocaleString();
+                
+            } catch (error) {
+                console.error('Error loading team data:', error);
+                document.getElementById('last-update').textContent = 'Error loading data';
+            }
+        }
+        
+        // Load data on page load
+        loadTeamData();
+        
+        // Auto-refresh every 30 seconds
+        setInterval(loadTeamData, 30000);
+    </script>
+</body>
+</html>
