@@ -1,0 +1,64 @@
+name: Update Sales Dashboard
+
+on:
+  repository_dispatch:
+    types: [update_designer_data]
+
+jobs:
+  update-data:
+    runs-on: ubuntu-latest
+    
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v4
+      
+    - name: Update designer data
+      run: |
+        # Get data from n8n
+        DESIGNER_NAME="${{ github.event.client_payload.designerName }}"
+        YTD_ACTUAL="${{ github.event.client_payload.ytdActual }}"
+        MONTHLY_ACTUAL="${{ github.event.client_payload.monthlyActual }}"
+        YTD_PROGRESS="${{ github.event.client_payload.ytdProgress }}"
+        MONTHLY_PROGRESS="${{ github.event.client_payload.monthlyProgress }}"
+        DEAL_VALUE="${{ github.event.client_payload.dealValue }}"
+        JOB_NAME="${{ github.event.client_payload.jobName }}"
+        
+        # Convert designer name to key (first name lowercase)
+        DESIGNER_KEY=$(echo "$DESIGNER_NAME" | awk '{print tolower($1)}')
+        
+        echo "🎯 Updating dashboard for: $DESIGNER_NAME ($DESIGNER_KEY)"
+        echo "💰 Deal value: \$$DEAL_VALUE"
+        echo "📊 New YTD: \$$YTD_ACTUAL"
+        
+        # Install jq for JSON processing
+        sudo apt-get update && sudo apt-get install -y jq
+        
+        # Update the JSON file
+        jq --arg key "$DESIGNER_KEY" \
+           --argjson ytd "$YTD_ACTUAL" \
+           --argjson monthly "$MONTHLY_ACTUAL" \
+           --argjson ytdProg "$YTD_PROGRESS" \
+           --argjson monthlyProg "$MONTHLY_PROGRESS" \
+           --argjson dealVal "$DEAL_VALUE" \
+           --arg jobName "$JOB_NAME" \
+           --arg timestamp "$(date -Iseconds)" \
+           --arg date "$(date -I)" \
+           '
+           .lastUpdated = $timestamp |
+           .designers[$key].current.ytdActual = $ytd |
+           .designers[$key].current.monthlyActual = $monthly |
+           .designers[$key].current.ytdProgress = $ytdProg |
+           .designers[$key].current.monthlyProgress = $monthlyProg |
+           .designers[$key].current.lastDeal.amount = $dealVal |
+           .designers[$key].current.lastDeal.jobName = $jobName |
+           .designers[$key].current.lastDeal.date = $date |
+           .designers[$key].current.dealsCount = (.designers[$key].current.dealsCount + 1)
+           ' data/designers.json > data/designers_temp.json && mv data/designers_temp.json data/designers.json
+        
+    - name: Commit and push changes
+      run: |
+        git config --local user.email "dashboard@wtxconstruction.com"
+        git config --local user.name "WTX Sales Bot"
+        git add data/designers.json
+        git commit -m "📊 $DESIGNER_NAME closed \$$DEAL_VALUE deal" || exit 0
+        git push
